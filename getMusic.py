@@ -60,7 +60,10 @@ if response.status_code == 200:
                     song_links = song_list.find_all('a', href=True)
                     for song in song_links:
                         song_url = song['href']
-                        song_name = re.search(r'《(.*?)》', song.get_text()).group(1)
+                        match = re.search(r'《(.*?)》', song.get_text())
+                        if not match:
+                            continue
+                        song_name = match.group(1)
 
                         if "/mp3/" in song_url:  # 过滤出歌曲链接（例如 `/mp3/admgc.html`）
                             full_song_url = f"http://www.22a5.com{song_url}"
